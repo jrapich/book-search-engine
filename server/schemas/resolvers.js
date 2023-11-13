@@ -3,7 +3,7 @@ const {authMiddleware, signToken, AuthenticationError} = require('../utils/auth'
 
 const resolvers = {
     Query: {
-        user: async (parent, { user, params }) =>  {
+        me: async (parent, { user, params }) =>  {
             user = null;
             const foundUser = await User.findOne({
                 $or: [{ _id: user ? user._id : params.id }, { username: params.username }],
