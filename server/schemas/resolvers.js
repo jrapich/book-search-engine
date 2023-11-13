@@ -40,6 +40,8 @@ const resolvers = {
             const token = signToken(user);
             return ({ token, user });
         },
+        //TODO: this likely wont work with destructuring the args, 
+        //will likely need to change to context
         saveBook: async (parent, {user, body}) => {
             console.log(user);
             try {
@@ -54,6 +56,8 @@ const resolvers = {
               throw AuthenticationError;
             }
         },
+        //TODO: this likely wont work with destructuring the args, 
+        //will likely need to change to context
         deleteBook: async (parent, {user, params}) => {
             const updatedUser = await User.findOneAndUpdate(
                 { _id: user._id },
