@@ -5,6 +5,9 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import { loginUser } from '../utils/API';
 import Auth from '../utils/auth';
 
+import { LOGIN } from '../utils/mutations';
+import { useMutation } from '@apollo/client';
+
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated] = useState(false);
@@ -14,6 +17,8 @@ const LoginForm = () => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
+
+  const [login, {loginError}] = useMutation(LOGIN);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -26,17 +31,25 @@ const LoginForm = () => {
     }
 
     try {
-      const response = await loginUser(userFormData);
+      //old RESTful API call to login
+      // const response = await loginUser(userFormData);
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
 
-      const { token, user } = await response.json();
+      // const { token, user } = await response.json();
+
+      //graphql mutation replacement of above API call
+      const {user, token} = await login({
+        variables:{userFormData}
+      });
+
       console.log(user);
       Auth.login(token);
     } catch (err) {
       console.error(err);
+      console.log(loginError);
       setShowAlert(true);
     }
 
