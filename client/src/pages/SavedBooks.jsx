@@ -11,6 +11,9 @@ import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
+import {QUERY_ME} from '../utils/queries';
+import {useQuery} from '@apollo/client';
+
 const SavedBooks = () => {
   //the old useEffect hook setting the state of userData with a RESTful API call
   // const [userData, setUserData] = useState({});
@@ -44,7 +47,11 @@ const SavedBooks = () => {
   // }, [userDataLength]);
 
   //the new graphql query that replaces the logic above
-  
+  const token = Auth.loggedIn() ? Auth.getToken() : null;
+  const {loading, data} = useQuery(QUERY_ME, {
+    variables: {token}
+  });
+  const userData = data;
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -71,7 +78,7 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 
