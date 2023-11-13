@@ -12,7 +12,8 @@ import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 import {QUERY_ME} from '../utils/queries';
-import {useQuery} from '@apollo/client';
+import {DELETE_BOOK} from '../utils/mutations';
+import {useQuery, useMutation} from '@apollo/client';
 
 const SavedBooks = () => {
   //the old useEffect hook setting the state of userData with a RESTful API call
@@ -53,6 +54,8 @@ const SavedBooks = () => {
   });
   const userData = data;
 
+  const [deleteBook, {deleteBookError, deleteBookData}] = useMutation(DELETE_BOOK);
+
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -62,18 +65,27 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await deleteBook(bookId, token);
+      //old RESTful API call to delete book
+      // const response = await deleteBook(bookId, token);
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
 
-      const updatedUser = await response.json();
-      setUserData(updatedUser);
+      // const updatedUser = await response.json();
+      // setUserData(updatedUser);
+
+      const {deletedBook} = await deleteBook({
+        variables:{bookId}
+      });
+      console.log(deletedBook);
+
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
+      console.log(deleteBookData);
+      console.log(deleteBookError);
     }
   };
 
