@@ -43,9 +43,9 @@ const SignupForm = () => {
       // const { token, user } = await response.json();
 
       //graphql mutation to replace the API call above
-
-      const {user, token} = await createUser({
-        variables: {userFormData}
+      console.log(userFormData);
+      const {token, user} = await createUser({
+        variables: {...userFormData}
       });
 
       console.log(user);
