@@ -22,6 +22,15 @@ const typeDefs = `
         user: User
     }
 
+    input BookArrayInput {
+        authors: String
+        description: String!
+        bookId: String!
+        image: String
+        link: String
+        title: String!
+    }
+
     type Query {
         me(_id: String, username: String): User 
     }
@@ -29,14 +38,7 @@ const typeDefs = `
     type Mutation {
         createUser(username: String!, email: String!, password: String!): Auth
         login(username: String!, password: String!): Auth
-        saveBook(
-            authors: String!,
-            description: String!,
-            bookId: String!,
-            image: String!,
-            link: String!,
-            title: String!
-        ): User
+        saveBook(content: BookArrayInput!): User
         deleteBook(bookId: String!): User
     }
 `;
