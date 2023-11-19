@@ -27,7 +27,14 @@ export const LOGIN = gql`
 export const ADD_BOOK = gql`
   mutation saveBook($content: BookArrayInput!) {
     saveBook(content: $content){
-        savedBooks
+        savedBooks {
+          authors
+          description
+          bookId
+          image
+          link
+          title
+        }
     }
   }
 `;
