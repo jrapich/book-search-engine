@@ -44,13 +44,11 @@ const resolvers = {
             const token = signToken(user);
             return ({ token, user });
         },
-        //TODO: this likely wont work with destructuring the args, 
-        //will likely need to change to context
-        saveBook: async (parent, {user, body}) => {
-            console.log(user);
+
+        saveBook: async (parent, {body}, context) => {
             try {
               const updatedUser = await User.findOneAndUpdate(
-                { _id: user._id },
+                { _id: context.user._id },
                 { $addToSet: { savedBooks: body } },
                 { new: true, runValidators: true }
               );
@@ -60,11 +58,10 @@ const resolvers = {
               throw AuthenticationError;
             }
         },
-        //TODO: this likely wont work with destructuring the args, 
-        //will likely need to change to context
-        deleteBook: async (parent, {user, params}) => {
+        
+        deleteBook: async (parent, {params}, context) => {
             const updatedUser = await User.findOneAndUpdate(
-                { _id: user._id },
+                { _id: context.user._id },
                 { $pull: { savedBooks: { bookId: params.bookId } } },
                 { new: true }
               );
