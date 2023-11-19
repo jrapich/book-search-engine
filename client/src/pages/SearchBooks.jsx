@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
+import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import {ADD_BOOK} from '../utils/mutations';
 import { useMutation } from '@apollo/client';
@@ -85,9 +85,9 @@ const SearchBooks = () => {
       // }
 
       //the new graphql mutation
-      const {responseFromMutation} = await addBook({
+      const responseFromMutation = await addBook({
         variables: {
-          bookToSave
+          content:bookToSave
         }
       });
       console.log(responseFromMutation);
