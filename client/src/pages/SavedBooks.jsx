@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+//import { useState, useEffect } from 'react';
 import {
   Container,
   Card,
@@ -7,7 +7,7 @@ import {
   Col
 } from 'react-bootstrap';
 
-import { getMe, deleteBook } from '../utils/API';
+//import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
@@ -48,11 +48,7 @@ const SavedBooks = () => {
   // }, [userDataLength]);
 
   //the new graphql query that replaces the logic above
-  const token = Auth.loggedIn() ? Auth.getToken() : null;
-  const {loading, data} = useQuery(QUERY_ME, {
-    variables: {token}
-  });
-  const userData = data;
+  const {loading, data} = useQuery(QUERY_ME);
 
   const [deleteBook, {deleteBookError, deleteBookData}] = useMutation(DELETE_BOOK);
 
@@ -96,21 +92,21 @@ const SavedBooks = () => {
 
   return (
     <>
-      <div fluid className="text-light bg-dark p-5">
+      <div className="text-light bg-dark p-5">
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>
       </div>
       <Container>
         <h2 className='pt-5'>
-          {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
+          {data.me.savedBooks.length
+            ? `Viewing ${data.me.savedBooks.length} saved ${data.me.savedBooks.length === 1 ? 'book' : 'books'}:`
             : 'You have no saved books!'}
         </h2>
         <Row>
-          {userData.savedBooks.map((book) => {
+          {data.me.savedBooks.map((book, index) => {
             return (
-              <Col md="4">
+              <Col key={index} md="4">
                 <Card key={book.bookId} border='dark'>
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>
