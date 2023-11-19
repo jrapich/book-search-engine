@@ -41,16 +41,14 @@ const LoginForm = () => {
       // const { token, user } = await response.json();
 
       //graphql mutation replacement of above API call
-      console.log(userFormData);
-      const {user, token} = await login({
+      const {data} = await login({
         variables:{
           email:userFormData.email,
           password:userFormData.password
         }
       });
 
-      console.log(user);
-      Auth.login(token);
+      Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
       console.log(loginError);
