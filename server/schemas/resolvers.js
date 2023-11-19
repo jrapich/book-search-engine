@@ -1,13 +1,13 @@
-const {User, Book} = require('../models');
-const {authMiddleware, signToken, AuthenticationError} = require('../utils/auth');
+const {User} = require('../models');
+const {signToken, AuthenticationError} = require('../utils/auth');
 
 const resolvers = {
     Query: {
-        me: async (parent, { user, params }) =>  {
-            user = null;
+        me: async (parent, args, context) =>  {
             const foundUser = await User.findOne({
-                $or: [{ _id: user ? user._id : params.id }, { username: params.username }],
-              });
+                _id: context.user._id,
+              })
+            .populate('savedBooks');
           
               if (!foundUser) {
                 throw AuthenticationError;
@@ -45,11 +45,11 @@ const resolvers = {
             return ({ token, user });
         },
 
-        saveBook: async (parent, {body}, context) => {
+        saveBook: async (parent, {content}, context) => {
             try {
               const updatedUser = await User.findOneAndUpdate(
                 { _id: context.user._id },
-                { $addToSet: { savedBooks: body } },
+                { $addToSet: { savedBooks: content } },
                 { new: true, runValidators: true }
               );
               return updatedUser;
