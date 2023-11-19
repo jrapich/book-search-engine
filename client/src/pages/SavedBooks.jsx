@@ -71,13 +71,14 @@ const SavedBooks = () => {
       // const updatedUser = await response.json();
       // setUserData(updatedUser);
 
-      const {deletedBook} = await deleteBook({
-        variables:{bookId}
+      const {data} = await deleteBook({
+        variables:{bookId:bookId}
       });
-      console.log(deletedBook);
+      console.log(data.deleteBook);
 
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
+      window.location.reload();
     } catch (err) {
       console.error(err);
       console.log(deleteBookData);
