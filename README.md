@@ -29,6 +29,12 @@ To use the book search engine, simply use the search field to search for any boo
 
 Link to project repository: [https://github.com/jrapich/book-search-engine](https://github.com/jrapich/book-search-engine)
 
+Link to the deployed application: [https://book-search-engine-production-ddcc.up.railway.app/](https://book-search-engine-production-ddcc.up.railway.app/)
+
+Screenshot of the application:
+
+![Screenshot](./badges/screenshot.png)
+
 ## Tests
 none needed
 
