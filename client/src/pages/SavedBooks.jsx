@@ -78,6 +78,7 @@ const SavedBooks = () => {
 
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
+      //TODO: properly setup useState to better handle this component reload:
       window.location.reload();
     } catch (err) {
       console.error(err);

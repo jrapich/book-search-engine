@@ -28,7 +28,7 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
-
+//setup the apollo client and use the jwt token described above in every request
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
@@ -37,6 +37,7 @@ const client = new ApolloClient({
 
 function App() {
   return (
+    //apollo provider client wraps around our entire rendered app
     <ApolloProvider client={client}>
       <Navbar />
       <Outlet />
