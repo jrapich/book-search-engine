@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "google API book search engine server",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -8,8 +8,8 @@
     "watch": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "https://www.github.com/jrapich",
+  "license": "MIT",
   "dependencies": {
     "@apollo/server": "^4.9.5",
     "bcrypt": "^5.1.1",
